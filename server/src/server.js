@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/auth.routes.js';
+import taskRoutes from './routes/task.routes.js';
+import { errorHandler } from './middleware/error.middleware.js';
 
 dotenv.config();
 
@@ -27,10 +29,14 @@ connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+// Centralized Error Handler (Must be registered AFTER routes)
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
