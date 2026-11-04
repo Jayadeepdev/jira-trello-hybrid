@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const columnSchema = new mongoose.Schema({
+  id: { type: String, required: true },
   title: { type: String, required: true },
   order: { type: Number, required: true }
 });

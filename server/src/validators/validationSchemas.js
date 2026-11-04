@@ -16,10 +16,12 @@ export const createTaskSchema = z.object({
   description: z.string().optional(),
   priority: z.enum(['Low', 'Medium', 'High', 'Urgent']).optional(),
   columnId: z.string().min(1, 'Column ID is required'),
+  dueDate: z.string().optional(),
+  boardId: z.string().optional(),
   assignees: z.array(z.string()).optional()
 });
 
 export const moveTaskSchema = z.object({
-  columnId: z.string().min(1, 'Target column ID is required'),
-  position: z.number().min(0, 'Position must be a positive number')
+  columnId: z.enum(['todo', 'inprogress', 'done']),
+  position: z.number().min(0, 'Position must be a positive number').optional()
 });

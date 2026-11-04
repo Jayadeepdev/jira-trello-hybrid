@@ -1,28 +1,20 @@
 {
-  "name": "server",
+  "name": "jira-trello-hybrid",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "description": "Production-grade MERN Stack Project Management Dashboard",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build:client": "cd client && npm run build",
+    "start": "node src/server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "mern",
+    "trello",
+    "jira",
+    "kanban"
+  ],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.6",
-    "dotenv": "^18.0.9",
-    "express": "^5.3.0",
-    "helmet": "^8.3.0",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.11.4",
-    "morgan": "^1.12.1",
-    "zod": "^4.6.7"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.14"
-  }
+  "license": "ISC"
 }

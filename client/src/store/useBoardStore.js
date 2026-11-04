@@ -30,7 +30,10 @@ export const useBoardStore = create((set, get) => ({
       await api.patch(`/tasks/${taskId}/move`, { columnId: targetColumnId, position: newPosition });
     } catch (error) {
       // 3. Rollback on failure
-      set({ tasks: previousTasks, error: 'Failed to update task position' });
+      set({
+        tasks: previousTasks,
+        error: error.response?.data?.message || 'Failed to update task position',
+      });
     }
   },
 }));
