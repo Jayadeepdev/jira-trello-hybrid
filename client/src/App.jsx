@@ -11,8 +11,7 @@ import {
 } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
-const API_URL = 'http://localhost:5000/api';
+import { API_URL } from './api/axios';
 
 const parseApiResponse = async (response) => {
   const body = await response.text();

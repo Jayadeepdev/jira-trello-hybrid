@@ -1,29 +1,32 @@
 import axios from 'axios';
 
-// Ensure trailing slashes or duplicate /api segments don't break production
 const getBaseUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL;
-  if (!envUrl) return 'http://localhost:5000/api';
-  return envUrl.endsWith('/api') ? envUrl : `${envUrl}/api`;
+
+  if (!envUrl) {
+    // Local dev only
+    if (import.meta.env.DEV) return 'http://localhost:5000/api';
+    // Production/preview build without the variable: fail loudly
+    throw new Error('VITE_API_URL was not set at build time');
+  }
+
+  const clean = envUrl.replace(/\/+$/, ''); // strip trailing slashes
+  return clean.endsWith('/api') ? clean : `${clean}/api`;
 };
 
+export const API_URL = getBaseUrl();
+
 export const api = axios.create({
-  baseURL: getBaseUrl(),
+  baseURL: API_URL,
   withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 });
 
-// Catch expired sessions or unauthenticated requests globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // Clear any local user state if needed, then redirect to login
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
-      }
+    if (error.response?.status === 401 && window.location.pathname !== '/login') {
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
